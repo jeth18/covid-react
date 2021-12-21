@@ -54,11 +54,9 @@ export default function CasesPage() {
   function renderCartsCases() {
     return Object.values(cases)
     .filter((value) => {
-      if(search === "") {
-        return value;
-      } else if(value.All.country?.toLowerCase().includes(search.toLocaleLowerCase())){
-        return value;
-      }
+      return search === "" 
+      ? true 
+      : value.All.country?.toLowerCase().includes(search.toLocaleLowerCase())
     })
     .map((value, key) => {
       return (
