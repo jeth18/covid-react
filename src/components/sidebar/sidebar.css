@@ -1,0 +1,9 @@
+.sidebar-link {
+    display: flex;
+    flex-direction: column;
+    margin: 16px;
+}
+
+.sidebar-link > a {
+    padding: 8px;
+}
