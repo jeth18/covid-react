@@ -1,0 +1,18 @@
+.data-case {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.informacion {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    justify-content: space-evenly;
+}
+
+progress {
+    width: 50vh;
+    height: 4vh;
+}
