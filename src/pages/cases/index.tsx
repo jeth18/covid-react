@@ -11,7 +11,7 @@ import './cases.css';
 export default function CasesPage() {
 
   const [cases, setCases] = useState<any[]>([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [scroll, setScroll] = useState(0);
   const [hidden,setHidden] = useState("")
@@ -19,16 +19,22 @@ export default function CasesPage() {
 
   useEffect(() => {
       async function getDatosCases(){
-        let response: Cases[] = await getCases();
-        setCases(response);
-        setLoading(true);
+        try {
+          let response: Cases[] = await getCases();
+          response = await response;
+          setCases(response);
+          setLoading(true);
+        } catch (error) {
+          console.log('error', error);
+        }
       }
       getDatosCases();
-  }, [])
+  }, [loading])
 
   useEffect(()=> {
     window.addEventListener("scroll",scrollListener)
-  })
+    return () => window.removeEventListener("scroll", scrollListener);
+  });
 
   function scrollListener(){
     const position = window.pageYOffset;
