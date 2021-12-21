@@ -13,7 +13,7 @@ export default function Sidenav() {
   return (
     <div className="sidebar">
       <div className={open ? "sidebar-content" : "close"}>
-        <Sidebar />
+        <Sidebar handleClick={handleClick}/>
       </div>
       <header>
         <div className="headers">
