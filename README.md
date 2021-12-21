@@ -27,13 +27,13 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `Despliegue del proyecto Firebase`
 
--Inicar sesión en firebase(puede crearse cuentas gratis o iniciar con google)
--instalar firebase-tools
--ire a la raíz del proyecto y abrir una terminal
-	- escribir en la terminal firebase login
--usar comando firebase init 
--npm run build en la raíz 
--firebase deploy 
+>Iniciar sesión en firebase(puede crearse cuentas gratis o iniciar con google)
+>instalar firebase-tools
+>ir a la raíz del proyecto y abrir una terminal
+	>>escribir en la terminal firebase login
+>usar comando firebase init 
+>npm run build en la raíz 
+>firebase deploy 
 
 ### `Docker file`
 > Construir imagen 
