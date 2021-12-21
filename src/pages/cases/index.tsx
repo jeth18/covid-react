@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import Cart from "../../components/Cart";
 import {Cases}  from "../../interface/cases";
-import getCases from "../../service/service.api"
+import getCases from "../../service/service.api";
+import up from '../../assets/cuadrado-de-angulo.svg';
 
 import './cases.css';
 
@@ -9,7 +11,11 @@ import './cases.css';
 export default function CasesPage() {
 
   const [cases, setCases] = useState<any[]>([]);
+  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [scroll, setScroll] = useState(0);
+  const [hidden,setHidden] = useState("")
+  const refScrollUp:any = useRef();
 
   useEffect(() => {
       async function getDatosCases(){
@@ -20,28 +26,55 @@ export default function CasesPage() {
       getDatosCases();
   }, [])
 
+  useEffect(()=> {
+    window.addEventListener("scroll",scrollListener)
+  })
+
+  function scrollListener(){
+    const position = window.pageYOffset;
+    setScroll(position);
+
+    if (scroll > 300) {
+      return setHidden("button-top");
+    } else if (scroll < 300) {
+      return setHidden("button-hidden");
+    }
+  }
+
+  function handleScrollUp(){
+    refScrollUp.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   function renderCartsCases() {
-    return Object.values(cases).map((value, key) => {
+    return Object.values(cases)
+    .filter((value) => {
+      if(search === "") {
+        return value;
+      } else if(value.All.country?.toLowerCase().includes(search.toLocaleLowerCase())){
+        return value;
+      }
+    })
+    .map((value, key) => {
       return (
-        <Cart key={key} {...value.All}/>
+        <Link key={key} 
+          to={`/cases/${value.All.country}`} 
+          style={{ textDecoration: 'none' }} 
+          className="link-card"
+          state={{from: value.All}}
+        >
+          <Cart key={key} {...value.All}/>
+        </Link>
       );
     }) 
   }
 
   function filterCountries(e: React.ChangeEvent<HTMLInputElement>) {
-    let data:any = Object.values(cases).filter((value) => {
-      let c: Cases = value.All;
-      return (
-        c.country?.toLocaleLowerCase().includes(e.target.value.toLocaleLowerCase())
-      )
-    })
-    console.log(data)
-    setCases(data);
+    setSearch(e.target.value);
   }
 
   return(
    <div className="content">
-     <div className="header-filter">
+     <div ref={refScrollUp} className="header-filter">
        <div className="div-Suffix">
          Country: 
        </div>
@@ -60,6 +93,11 @@ export default function CasesPage() {
           <p>Error al recuperar los datos</p>
       }
      </div>
+     <div className={hidden}>
+        <button onClick={() => handleScrollUp()}>
+          <img src={up} alt="menu" />
+        </button>
+     </div> 
    </div>
   )
 }

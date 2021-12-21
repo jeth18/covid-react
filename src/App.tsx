@@ -1,14 +1,14 @@
 import React from 'react';
 import Sidenav from './components/sidenav';
-import Cases from './pages/cases';
 
 import './App.css';
+import Router from './router';
 
 function App() {
   return (
     <div className="App">
       <Sidenav />
-      <Cases/>
+      <Router/>
     </div>
   );
 }
