@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Cart from "../../components/Cart";
 import {Cases}  from "../../interface/cases";
-import getCases from "../../service/service.api";
+import {getCases} from "../../service/service.api";
 import up from '../../assets/cuadrado-de-angulo.svg';
 
 import './cases.css';
