@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./sidenav.css";
 import Sidebar from "../sidebar";
 import MenuButton from "../MenuButton";
+import ThemeChange from "../Theme";
 
 export default function Sidenav() {
   const [open, setOpen] = useState(false);
@@ -19,6 +20,9 @@ export default function Sidenav() {
         <div className="headers">
           <MenuButton open={open} handleClick={handleClick} />
           <h3>Covid React app</h3>
+        </div>
+        <div>
+          <ThemeChange />
         </div>
       </header>
     </div>

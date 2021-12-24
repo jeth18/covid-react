@@ -3,6 +3,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    padding: 8px;
 }
 
 .informacion {
@@ -14,5 +16,5 @@
 
 progress {
     width: 50vh;
-    height: 4vh;
+    height: 6vh;
 }

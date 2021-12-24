@@ -3,12 +3,10 @@ import { ActionTypes } from "../actionTypes/index";
 
 const INITIAL_STATE: any[] = [];
 
-export const vaccinesReducer = (state = INITIAL_STATE, action: Action) => {
+export const casesReducer = (state = INITIAL_STATE, action: Action) => {
   switch (action.type) {
-    case ActionTypes.INIT_VACCINE:
+    case ActionTypes.INIT_CASES:
       return action.payload;
-    case ActionTypes.SET_VACCINES:
-      return [...state, action.payload];
     default:
       return state;
   }

@@ -1,55 +1,36 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState} from "react";
 import { Link } from "react-router-dom";
-import Cart from "../../components/Cart";
+import Card from "../../components/Card";
 import {Cases}  from "../../interface/cases";
 import {getCases} from "../../service/service.api";
-import up from '../../assets/cuadrado-de-angulo.svg';
-
 import './cases.css';
-
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../state/store";
+import { initCases } from "../../state/actionCreators";
+import UpButton from "../../components/upButton";
+import Loader from "../../components/loader";
 
 export default function CasesPage() {
 
-  const [cases, setCases] = useState<any[]>([]);
+  const cases = useSelector((state: RootState) => state.cases);
   const [search, setSearch] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [scroll, setScroll] = useState(0);
-  const [hidden,setHidden] = useState("")
   const refScrollUp:any = useRef();
-
+  const dispatch = useDispatch();
+  
   useEffect(() => {
       async function getDatosCases(){
         try {
           let response: Cases[] = await getCases();
           response = await response;
-          setCases(response);
+          dispatch(initCases(response));
           setLoading(true);
         } catch (error) {
           console.log('error', error);
         }
       }
       getDatosCases();
-  }, [loading])
-
-  useEffect(()=> {
-    window.addEventListener("scroll",scrollListener)
-    return () => window.removeEventListener("scroll", scrollListener);
-  });
-
-  function scrollListener(){
-    const position = window.pageYOffset;
-    setScroll(position);
-
-    if (scroll > 300) {
-      return setHidden("button-top");
-    } else if (scroll < 300) {
-      return setHidden("button-hidden");
-    }
-  }
-
-  function handleScrollUp(){
-    refScrollUp.current.scrollIntoView({ behavior: "smooth" });
-  };
+  }, [dispatch])
 
   function renderCartsCases() {
     return Object.values(cases)
@@ -59,6 +40,7 @@ export default function CasesPage() {
       : value.All.country?.toLowerCase().includes(search.toLocaleLowerCase())
     })
     .map((value, key) => {
+      let prop:Cases =  value.All;
       return (
         <Link key={key} 
           to={`/cases/${value.All.country}`} 
@@ -66,7 +48,17 @@ export default function CasesPage() {
           className="link-card"
           state={{from: value.All}}
         >
-          <Cart key={key} {...value.All}/>
+          <Card> 
+            <div className="card-content">
+              <h4>
+                {prop?.country ? prop.country :  "Global"}
+              </h4>
+              <p>Confirmados: {prop.confirmed} </p>
+              <p>Fallecidos: {prop.deaths} </p>
+            
+              <p>Población: {prop.population}</p>
+            </div>
+          </Card>
         </Link>
       );
     }) 
@@ -89,19 +81,25 @@ export default function CasesPage() {
         />
      </div>
      <div>
-      {cases && loading ? 
-          <div className="display-carts">
-            {renderCartsCases()}
+
+      {loading ? 
+          <div>
+            {cases ? 
+              <div>
+                <div className="display-carts">
+                  {renderCartsCases()}
+                </div>
+                <UpButton refScrollUp={refScrollUp} />
+              </div>  
+            :
+              <p>Error al recuperar los casos</p>
+            }
+          
           </div>
           : 
-          <p>Error al recuperar los datos</p>
+          <Loader />
       }
      </div>
-     <div className={hidden}>
-        <button onClick={() => handleScrollUp()}>
-          <img src={up} alt="menu" />
-        </button>
-     </div> 
    </div>
   )
 }

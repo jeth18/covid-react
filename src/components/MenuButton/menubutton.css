@@ -1,3 +1,13 @@
-button::close {
+.button-nav::close {
     animation: both 2s infinite ease-in-out;
+}
+
+.button-nav {
+    background-color: transparent;
+    border-color: transparent;
+    margin-top: 8px;
+}
+
+.logo-img  {
+    filter: invert(var(--logo-img));
 }

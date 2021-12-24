@@ -1,0 +1,12 @@
+.data-content {
+  margin: 4px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.data-content > p{
+  margin: 0px;
+  padding: 0px;
+}
