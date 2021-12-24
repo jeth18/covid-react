@@ -9,6 +9,7 @@ import Card from "../../components/Card";
 import UpButton from "../../components/upButton";
 import Loader from "../../components/loader";
 import './vaccines.css'
+import world from "../../assets/world.png";
 
 export default function Vaccines() {
 
@@ -77,39 +78,70 @@ export default function Vaccines() {
       setSearch(e.target.value);
     }
 
-  
-  return ( 
-    <div className="content">
-    <div ref={refScrollUp} className="header-filter">
-      <div className="div-Suffix">
-        Country: 
-      </div>
-      <input type="text" className="input-filter" 
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          filterCountries(e)
-        }
-        />
-    </div>
-    <div>
-
-      {loading ? 
-          <div>
-            {vaccines ? 
-              <div>
-                <div className="display-carts">
-                  {renderCardsVaccines()}
-                </div>
-                <UpButton refScrollUp={refScrollUp} />
-              </div>  
-            :
-              <p>Error al recuperar los casos</p>
-            }
-          
+    function setGlobal(value:any) {
+      return (
+        <div className="data-content">
+          <img src={world} alt="wolrdimg" />
+          <h4>Global</h4>
+          <p>Personas vacunadas en el mundo</p>
+          <progress value={value.All.people_vaccinated} max={value.All.population} />
+          <div className="informacion">
+            <h5>Personas vacunadas: {value.All.people_vaccinated}</h5>
+            <h5>Población: {value.All.population}</h5>
           </div>
-          : 
-          <Loader />
-      }
-    </div>
-    </div>
+        </div>
+      )
+    }
+
+  return ( 
+   <div>
+      <div>
+        {vaccines && 
+            <div>
+              {
+                Object.entries(vaccines).map(([key,value]) => {
+                  if(key === "Global") {
+                    return (
+                      setGlobal(value)
+                    )
+                  }
+                })
+              }
+          </div>
+        }
+      </div>
+      <div className="content">
+        <div ref={refScrollUp} className="header-filter">
+          <div className="div-Suffix">
+            Country: 
+          </div>
+          <input type="text" className="input-filter" 
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              filterCountries(e)
+            }
+            />
+        </div>
+        <div>
+     
+          {loading ? 
+              <div>
+                {vaccines ? 
+                  <div>
+                    <div className="display-carts">
+                      {renderCardsVaccines()}
+                    </div>
+                    <UpButton refScrollUp={refScrollUp} />
+                  </div>  
+                :
+                  <p>Error al recuperar los casos</p>
+                }
+              
+              </div>
+              : 
+              <Loader />
+          }
+      </div>
+      </div>
+   </div>
   )
 }

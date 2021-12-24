@@ -71,3 +71,14 @@ h1,h2,h3,h4,h5,p{
 .link-card {
   color: black;
 }
+
+progress {
+  width: 50vh;
+  height: 6vh;
+}
+
+@media (max-width: 768px ) {
+  progress {
+    width: 40vh;
+  }
+}
