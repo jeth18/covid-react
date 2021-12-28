@@ -26,12 +26,12 @@
 
 .card-content:hover {
   box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 20px 0px;
-  transform: scale(1.1);
+  transform: scale(1.05);
   transition: transform 0.3s ease;
 }
 
 .car-content:active {
-  transform: scale(1.3);
+  transform: scale(1.2);
   transition: transform 0.5s ease;
 }
 

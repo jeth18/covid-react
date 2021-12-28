@@ -1,24 +1,21 @@
-import { ActionTypes } from "../actionTypes";
+import { ActionTypes } from '../actionTypes'
 
-const initVaccines = (vaccines: any) => {
-  return {
+const initVaccines = (vaccines: any) =>
+  ({
     type: ActionTypes.INIT_VACCINE,
     payload: vaccines,
-  };
-};
+  })
 
-const initCases = (cases: any) => {
-  return {
+const initCases = (cases: any) =>
+  ({
     type: ActionTypes.INIT_CASES,
     payload: cases,
-  };
-};
+  })
 
-const changeTheme = (theme: boolean) => {
-  return {
+const changeTheme = (theme: boolean) =>
+  ({
     type: ActionTypes.CHANGE_THEME,
     payload: theme,
-  };
-};
+  })
 
-export { initVaccines, initCases, changeTheme };
+export { initVaccines, initCases, changeTheme }

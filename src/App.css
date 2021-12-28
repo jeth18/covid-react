@@ -5,6 +5,8 @@ html {
   --input-background-color: white;
   --box-shadow-color: black;
   --cart-color: rgb(255, 255, 255);
+  --theme-button-bg: rgba(230, 230, 230, 0.6);
+  --theme-button-border: rgb(175, 175, 175);
   --logo-img: 0;
 }
 
@@ -15,6 +17,8 @@ html[data-theme="dark"] {
   --cart-color: #424242;
   --box-shadow-color: rgb(48, 48, 48);
   --input-background-color: rgb(70, 63, 63);
+  --theme-button-bg: rgba(125, 125, 125, 0.6);
+  --theme-button-border: rgb(80, 80, 80);
   --logo-img: 1;
 }
 

@@ -1,0 +1,17 @@
+{
+  "extends": ["tslint:latest", "tslint-react"],
+  "rules": {
+      "no-any": false, 
+      "curly": true,  
+      "quotemark": [true, "single"],
+      "indent": [true, "spaces", 2],
+      "space-before-function-paren": false,
+      "arrow-return-shorthand": [true, "multiline"],
+      "semicolon": [true, "never"],
+      "class-name": false,
+      "interface-name": false,
+      "object-literal-sort-keys": false,
+      "no-console": false,
+      "jsx-no-lambda": false
+  }
+}

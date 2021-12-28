@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeTheme } from "../../state/actionCreators";
 import { RootState } from "../../state/store";
+import moon from "../../assets/luna.svg";
+import sun from "../../assets/dom.svg";
 
 import "./theme.css";
 
@@ -21,21 +23,13 @@ export default function ThemeChange() {
     dispatch(changeTheme(!theme));
   };
 
-  return (
-    <div>
-      <div className="switch-button">
-        <input
-          type="checkbox"
-          name="switch-button"
-          id="switch-label"
-          className="switch-button__checkbox"
-        />
-        <label
-          htmlFor="switch-label"
-          className="switch-button__label"
-          onClick={() => handleClickChangeTheme()}
-        ></label>
-      </div>
-    </div>
-  );
+  return(
+    <button onClick={() => handleClickChangeTheme()} className="button-theme">
+      {theme ?
+        <img src={sun} alt="menu" className="logo-img" />
+        :
+        <img src={moon} alt="menu" className="logo-img" />
+      }
+    </button>
+    )
 }

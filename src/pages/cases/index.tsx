@@ -1,57 +1,56 @@
-import React, { useEffect, useRef, useState} from "react";
-import Card from "../../components/Card";
-import UpButton from "../../components/upButton";
-import Loader from "../../components/loader";
-import { Link } from "react-router-dom";
-import { ICases }  from "../../interface/cases";
-import { getCases } from "../../service/service.api";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../state/store";
-import { initCases } from "../../state/actionCreators";
+import React, { useEffect, useRef, useState} from 'react'
+import Card from '../../components/Card'
+import UpButton from '../../components/upButton'
+import Loader from '../../components/loader'
+import { Link } from 'react-router-dom'
+import { ICases }  from '../../interface/cases'
+import { getCases } from '../../service/service.api'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../state/store'
+import { initCases } from '../../state/actionCreators'
 
-import './cases.css';
+import './cases.css'
 
-export default function CasesPage() {
+export default function CasesPage () {
 
-  const cases = useSelector((state: RootState) => state.cases);
-  const [search, setSearch] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const refScrollUp:any = useRef();
-  const dispatch = useDispatch();
+  const cases = useSelector((state: RootState) => state.cases)
+  const [search, setSearch] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
+  const refScrollUp:any = useRef()
+  const dispatch = useDispatch()
   
   useEffect(() => {
-      async function getDatosCases(){
+      async function getDatosCases (){
         try {
-          let response: ICases[] = await getCases();
-          dispatch(initCases(await response));
-          setLoading(true);
+          let response: ICases[] = await getCases()
+          dispatch(initCases(await response))
+          setLoading(true)
         } catch (error) {
-          console.log('error', error);
+          console.log('error', error)
         }
       }
-      getDatosCases();
+      getDatosCases()
   }, [dispatch])
 
-  function renderCartsCases() {
+  function renderCartsCases () {
     return Object.values(cases)
-    .filter((value) => {
-      return search === "" 
+    .filter((value) =>
+      search === '' 
       ? true 
-      : value.All.country?.toLowerCase().includes(search.toLocaleLowerCase())
-    })
+      : value.All.country?.toLowerCase().includes(search.toLocaleLowerCase()))
     .map((value, key) => {
-      let prop:ICases =  value.All;
+      let prop:ICases =  value.All
       return (
         <Link key={key} 
           to={`/cases/${value.All.country}`} 
           style={{ textDecoration: 'none' }} 
-          className="link-card"
+          className='link-card'
           state={{from: value.All}}
         >
           <Card> 
-            <div className="card-content">
+            <div className='card-content'>
               <h4>
-                {prop?.country ? prop.country :  "Global"}
+                {prop?.country ? prop.country :  'Global'}
               </h4>
               <p>Confirmados: {prop.confirmed} </p>
               <p>Fallecidos: {prop.deaths} </p>
@@ -60,21 +59,21 @@ export default function CasesPage() {
             </div>
           </Card>
         </Link>
-      );
+      )
     }) 
   }
 
-  function filterCountries(e: React.ChangeEvent<HTMLInputElement>) {
-    setSearch(e.target.value);
+  function filterCountries (e: React.ChangeEvent<HTMLInputElement>) {
+    setSearch(e.target.value)
   }
 
   return(
-   <div className="content">
-     <div ref={refScrollUp} className="header-filter">
-       <div className="div-Suffix">
+   <div className='content'>
+     <div ref={refScrollUp} className='header-filter'>
+       <div className='div-Suffix'>
          Country: 
        </div>
-       <input type="text" className="input-filter" 
+       <input type='text' className='input-filter' 
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
            filterCountries(e)
         }
@@ -86,7 +85,7 @@ export default function CasesPage() {
           <div>
             {cases ? 
               <div>
-                <div className="display-carts">
+                <div className='display-carts'>
                   {renderCartsCases()}
                 </div>
                 <UpButton refScrollUp={refScrollUp} />
