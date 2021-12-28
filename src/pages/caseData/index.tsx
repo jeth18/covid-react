@@ -1,10 +1,10 @@
 import { useLocation } from "react-router-dom";
-import { Cases } from "../../interface/cases";
+import { ICases } from "../../interface/cases";
 import './caseData.css';
 
 export default function CaseData() {
     const location:any = useLocation();
-    const data:Cases = location.state.from;
+    const data:ICases = location.state.from;
     return (
         <div className="data-case">
             <h1> {data.country}({data.abbreviation}) - Continente: {data.continent} </h1>

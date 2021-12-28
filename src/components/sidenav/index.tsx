@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./sidenav.css";
 import Sidebar from "../sidebar";
 import MenuButton from "../MenuButton";
-import ThemeChange from "../Theme";
+import ThemeChange from "../ThemeButton";
 
 export default function Sidenav() {
   const [open, setOpen] = useState(false);

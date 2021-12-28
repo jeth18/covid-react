@@ -78,9 +78,9 @@ export default function Vaccines() {
       setSearch(e.target.value);
     }
 
-    function setGlobal(value:any) {
+    function setGlobal(value:any, key:string) {
       return (
-        <div className="data-content">
+        <div className="data-content" key={key}>
           <img src={world} alt="wolrdimg" />
           <h4>Global</h4>
           <p>Personas vacunadas en el mundo</p>
@@ -100,11 +100,7 @@ export default function Vaccines() {
             <div>
               {
                 Object.entries(vaccines).map(([key,value]) => {
-                  if(key === "Global") {
-                    return (
-                      setGlobal(value)
-                    )
-                  }
+                 return key === "Global" ? setGlobal(value, key) : null
                 })
               }
           </div>

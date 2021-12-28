@@ -1,4 +1,4 @@
-export interface Cases {
+export interface ICases {
   confirmed?: number;
   recovered?: number;
   deaths?: number;

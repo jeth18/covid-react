@@ -1,5 +1,5 @@
 import axios from "axios";
-import { environment } from "../enviroment/enviroment";
+import { environment } from "../env/enviroment";
 
 function getCases(): Promise<any[]> {
   return axios

@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState} from "react";
-import { Link } from "react-router-dom";
 import Card from "../../components/Card";
-import {Cases}  from "../../interface/cases";
-import {getCases} from "../../service/service.api";
-import './cases.css';
+import UpButton from "../../components/upButton";
+import Loader from "../../components/loader";
+import { Link } from "react-router-dom";
+import { ICases }  from "../../interface/cases";
+import { getCases } from "../../service/service.api";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
 import { initCases } from "../../state/actionCreators";
-import UpButton from "../../components/upButton";
-import Loader from "../../components/loader";
+
+import './cases.css';
 
 export default function CasesPage() {
 
@@ -21,9 +22,8 @@ export default function CasesPage() {
   useEffect(() => {
       async function getDatosCases(){
         try {
-          let response: Cases[] = await getCases();
-          response = await response;
-          dispatch(initCases(response));
+          let response: ICases[] = await getCases();
+          dispatch(initCases(await response));
           setLoading(true);
         } catch (error) {
           console.log('error', error);
@@ -40,7 +40,7 @@ export default function CasesPage() {
       : value.All.country?.toLowerCase().includes(search.toLocaleLowerCase())
     })
     .map((value, key) => {
-      let prop:Cases =  value.All;
+      let prop:ICases =  value.All;
       return (
         <Link key={key} 
           to={`/cases/${value.All.country}`} 
