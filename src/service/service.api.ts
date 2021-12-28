@@ -15,4 +15,11 @@ function getVaccines(): Promise<any[]> {
     .catch((error: any) => console.error(error))
 }
 
-export { getCases, getVaccines }
+function getHistoryByCountryAndStatus({country, status}: any): Promise<any[]> {
+  return axios
+    .get(environment.url + `/history?country=${country}&status=${status}`)
+    .then((response: any) => response.data)
+    .catch((error: any) => console.error(error))
+}
+
+export { getCases, getVaccines, getHistoryByCountryAndStatus }

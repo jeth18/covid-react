@@ -1,26 +1,26 @@
-import { getVaccines } from '../../service/service.api'
-import { useDispatch, useSelector} from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector} from 'react-redux'
+import { Link } from 'react-router-dom'
+import world from '../../assets/world.png'
+import Card from '../../components/Card'
+import Loader from '../../components/loader'
+import UpButton from '../../components/upButton'
+import { IVaccines } from '../../interface/vaccines'
+import { getVaccines } from '../../service/service.api'
 import { initVaccines } from '../../state/actionCreators'
 import { RootState } from '../../state/store'
-import { IVaccines } from '../../interface/vaccines'
-import { Link } from 'react-router-dom'
-import Card from '../../components/Card'
-import UpButton from '../../components/upButton'
-import Loader from '../../components/loader'
 import './vaccines.css'
-import world from '../../assets/world.png'
 
 export default function Vaccines() {
 
-    const vaccines = useSelector((state:RootState) => state.vaccines)
+    const vaccines = useSelector((state: RootState) => state.vaccines)
     const [search, setSearch] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(false)
-    const refScrollUp:any = useRef()
+    const refScrollUp: any = useRef()
     const dispatch = useDispatch()
-    
+
     useEffect(() => {
-        async function getDatosVaccines(){
+        async function getDatosVaccines() {
           try {
             let response: any[] = await getVaccines()
             response = await response
@@ -36,19 +36,20 @@ export default function Vaccines() {
     function renderCardsVaccines() {
       return Object.values(vaccines)
       .filter((value) =>
-        search === '' 
-        ? true 
+        search === ''
+        ? true
         : value.All.country?.toLowerCase().includes(search.toLocaleLowerCase()))
       .map((value, key) => {
-        let prop:IVaccines =  value.All
+        const prop: IVaccines =  value.All
         return (
-          <Link key={key} 
-            to={`/vaccines/${value.All.country}`} 
-            style={{ textDecoration: 'none' }} 
+          <Link
+            key={key}
+            to={`/vaccines/${value.All.country}`}
+            style={{ textDecoration: 'none' }}
             className='link-card'
             state={{from: value.All}}
           >
-            <Card> 
+            <Card>
               <div className='card-content'>
                 <h4>
                   {prop?.country ? prop.country :  'Global'}
@@ -69,15 +70,14 @@ export default function Vaccines() {
             </Card>
           </Link>
         )
-      }) 
+      })
     }
 
-    
     function filterCountries(e: React.ChangeEvent<HTMLInputElement>) {
       setSearch(e.target.value)
     }
 
-    function setGlobal(value:any, key:string) {
+    function setGlobal(value: any, key: string) {
       return (
         <div className='data-content' key={key}>
           <img src={world} alt='wolrdimg' />
@@ -92,46 +92,46 @@ export default function Vaccines() {
       )
     }
 
-  return ( 
+    return (
    <div>
       <div>
-        {vaccines && 
-            <div>
-              {
-                Object.entries(vaccines).map(([key,value]) =>
-                 key === 'Global' ? setGlobal(value, key) : null)
-              }
+        {vaccines &&
+          <div>
+            {
+              Object.entries(vaccines).map(([key, value]) =>
+              key === 'Global' ? setGlobal(value, key) : null)
+            }
           </div>
         }
       </div>
       <div className='content'>
         <div ref={refScrollUp} className='header-filter'>
           <div className='div-Suffix'>
-            Country: 
+            Country:
           </div>
-          <input type='text' className='input-filter' 
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              filterCountries(e)
-            }
-            />
+          <input
+            type='text'
+            className='input-filter'
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => filterCountries(e)}
+          />
         </div>
         <div>
-     
-          {loading ? 
+          {
+            loading ?
               <div>
-                {vaccines ? 
-                  <div>
-                    <div className='display-carts'>
-                      {renderCardsVaccines()}
+                {
+                  vaccines ?
+                    <div>
+                      <div className='display-carts'>
+                        {renderCardsVaccines()}
+                      </div>
+                      <UpButton refScrollUp={refScrollUp} />
                     </div>
-                    <UpButton refScrollUp={refScrollUp} />
-                  </div>  
-                :
-                  <p>Error al recuperar los casos</p>
+                    :
+                    <p>Error al recuperar los casos</p>
                 }
-              
               </div>
-              : 
+              :
               <Loader />
           }
       </div>
