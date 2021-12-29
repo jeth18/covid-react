@@ -5,15 +5,16 @@
 }
 
 .sidebar-link > a {
-    padding: 16px;
+    padding: 12px;
+    width: 100%;
     outline: none;
     text-decoration: none;
     color: var(--primary-color);
-    border-top: solid 1px lightgray; 
+    border-top: solid 1px rgb(241, 235, 235); 
 }
 
 nav > a:last-child {
-    border-bottom: solid 1px lightgray;
+    border-bottom: solid 1px rgb(241, 235, 235);
 }
 
 .sidebar-link > a:hover {

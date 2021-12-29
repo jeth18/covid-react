@@ -2,12 +2,14 @@
 html {
   --primary-color: black;
   --secondary-color: white;
-  --input-background-color: white;
+  /*--input-background-color: white;*/
   --box-shadow-color: black;
   --cart-color: rgb(255, 255, 255);
   --theme-button-bg: rgba(230, 230, 230, 0.6);
+  --theme-chart-bg: rgba(245, 238, 238, 0.705);
   --theme-button-border: rgb(175, 175, 175);
   --logo-img: 0;
+  --border-color: lightgray;
 }
 
 /* Variables de color si el tema es dark */
@@ -16,10 +18,12 @@ html[data-theme="dark"] {
   --secondary-color: #353535;
   --cart-color: #424242;
   --box-shadow-color: rgb(48, 48, 48);
-  --input-background-color: rgb(70, 63, 63);
+  /* --input-background-color: rgb(70, 63, 63); */
   --theme-button-bg: rgba(125, 125, 125, 0.6);
   --theme-button-border: rgb(80, 80, 80);
   --logo-img: 1;
+  --border-color: rgb(68, 68, 68);
+  --theme-chart-bg: rgb(58, 58, 58);
 }
 
 body { 
@@ -59,10 +63,9 @@ h1,h2,h3,h4,h5,p{
 .input-filter {
   height: 25px;
   width: 40vh;
-  border: 1px solid lightgray;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
-  background-color: var(--input-background-color);
+  background-color: var(--secondary-color);
   color: var(--primary-color)
 }
 
@@ -85,4 +88,28 @@ progress {
   progress {
     width: 40vh;
   }
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  transform: scale(1.02);
+}
+
+input, .div-Suffix{
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  border: solid .5px var(--border-color);
+  outline: none;
+}
+
+input,select {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.div-Suffix {
+  padding-right: 12px;
+  padding-left: 12px;
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Chart from 'react-google-charts'
 import { useSelector } from 'react-redux'
+import grafica from '../../assets/histograma-de-grafico.svg'
 import Loader from '../../components/loader'
 import { getHistoryByCountryAndStatus } from '../../service/service.api'
 import { RootState } from '../../state/store'
@@ -38,17 +39,17 @@ export default function History() {
     })
 
     // tslint:disable-next-line: forin
-    for (let key in mapFechas) {
+    for (const key in mapFechas) {
       data.push([key, mapFechas[key]])
     }
     data = data.reverse()
-    data.unshift(['Data','Value'])
-    console.log(data)
-    setDataTable(data);
+    data.unshift(['Data', 'Value'])
+    setDataTable(data)
   }
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
+    setLoading(false)
     const {country, status} = search
     if (country === '' || status === '') {
       console.log('Error data')
@@ -57,9 +58,15 @@ export default function History() {
         joinMonthYear(res.All.dates)
       }).finally(() => {
         setLoading(true)
-        console.log(loading)
       })
     }
+  }
+
+  const handleChange =
+   (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
+    const name = e.target.name
+    const value = e.target.value
+    setSearch((values) => ({...values, [name]: value}))
   }
 
   async function getHistoryData(d: Data) {
@@ -68,14 +75,8 @@ export default function History() {
     return response
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
-    const name = e.target.name
-    const value = e.target.value
-    setSearch((values) => ({...values, [name]: value}))
-  }
-
   return (
-    <div>
+    <div className='content'>
       <div className='filter'>
           <input
             type='text'
@@ -94,35 +95,43 @@ export default function History() {
           </select>
           <button type='submit'onClick={handleSubmit}>Buscar</button>
       </div>
-      {loading &&
-         <div className="dataTable">
-            <p>Historial de {search.status}</p>
-            <Chart
-              width={'100%'}
-              height={'400px'}
-              chartType='LineChart'
-              loader={<Loader />}
-              data={dataTable}
-              // tslint:disable-next-line: jsx-no-multiline-js
-              options={{
-                chartArea: { 
-                  height: '70%',
-                  width: '80%'
-                },
-                hAxis: 
-                  {   
-                    slantedText: true, 
-                    textStyle:{color: theme ? 'white' : 'black'}
+      { dataTable.length !== 0  ?
+          loading ?
+          <div className='dataTable'>
+              <p>Historial de {search.status === 'deaths' ? 'Muertes' : 'Confirmados'}</p>
+              <Chart
+                width={'100%'}
+                height={'400px'}
+                chartType='LineChart'
+                loader={<Loader />}
+                data={dataTable}
+                // tslint:disable-next-line: jsx-no-multiline-js
+                options={{
+                  pointSize: 5,
+                  lineWidth: 3,
+                  chartArea: {
+                    height: '70%',
+                    width: '80%',
                   },
-                vAxis: { 
-                  viewWindow: { min: 0, max: search.status === 'deaths' ? 10_000_000 : 100_000_000 },
-                  textStyle:{color: theme ? 'white' : 'black'}
-                  },
-                legend: { position: 'none' },
-                backgroundColor: theme ? '#555555' : 'white',
-                borderRadius: '4px'
-              }}
-            />
+                  hAxis:
+                    {
+                      slantedText: true,
+                      textStyle: {color: theme ? 'white' : 'black'}
+                    },
+                  vAxis:
+                    {
+                      scaleType: 'linear',
+                      textStyle: {color: theme ? 'white' : 'black'},
+                    },
+                  backgroundColor: 'transparent',
+                }}
+              />
+          </div>
+          :
+          <Loader />
+         :
+         <div className='content-img'>
+          <img src={grafica} alt='svg-grafica'className='logo-img'/>
          </div>
         }
     </div>

@@ -107,9 +107,10 @@ export default function Vaccines() {
       <div className='content'>
         <div ref={refScrollUp} className='header-filter'>
           <div className='div-Suffix'>
-            Country:
+            País:
           </div>
           <input
+            placeholder='Nombre país'
             type='text'
             className='input-filter'
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => filterCountries(e)}

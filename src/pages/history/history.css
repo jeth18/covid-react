@@ -1,3 +1,24 @@
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dataTable {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+
+  background-color: var(--theme-chart-bg);
+  border: solid .5px var(--border-color);
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+}
+
 .filter {
   display: flex;
   flex-direction: row;
@@ -5,14 +26,15 @@
   align-content: center;
   
   margin: 16px;
-  padding: 8px;
+  padding: 16px;
 }
 
-input, select, button {
+.filter > * {
   margin: 8px;
-  border: solid 1px lightgray;
+  border: solid .5px var(--border-color);
   border-radius: 4px;
-  outline: none
+  outline: none;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 input {
@@ -34,10 +56,32 @@ select {
   color: white;
 }
 
-.dataTable > p {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+.logo-img {
+  filter: invert(var(--logo-img));
 }
+
+.content-img {
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items: center;
+  height: 50vh;
+}
+
+@media (max-width: 767px) {
+  .filter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    
+    margin: 16px;
+    padding: 16px;
+  }
+
+  .filter > button {
+    max-width: 100px;
+    max-height: 20px;
+  }
+}
+
