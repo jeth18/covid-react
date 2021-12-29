@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import Chart from 'react-google-charts'
+import { useSelector } from 'react-redux'
 import Loader from '../../components/loader'
 import { getHistoryByCountryAndStatus } from '../../service/service.api'
+import { RootState } from '../../state/store'
+import './history.css'
 interface Dictionary<T> {
   [Key: string]: T
 }
@@ -12,15 +15,16 @@ interface Data {
 
 export default function History() {
 
+  const theme = useSelector((state: RootState) => state.theme)
   const mapFechas: Dictionary<number> = {}
   const [loading, setLoading] = useState(false)
+  const [dataTable, setDataTable] = useState([])
   const [search, setSearch] = useState(
     {
       country: '',
       status: '',
     }
   )
-  const [dataTable, setDataTable] = useState([])
 
   let data: any = []
 
@@ -33,12 +37,14 @@ export default function History() {
         mapFechas[yearMonth] = value
     })
 
-    data.push(['Date', 'Value'])
     // tslint:disable-next-line: forin
     for (let key in mapFechas) {
       data.push([key, mapFechas[key]])
     }
-    setDataTable(data)
+    data = data.reverse()
+    data.unshift(['Data','Value'])
+    console.log(data)
+    setDataTable(data);
   }
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -89,21 +95,32 @@ export default function History() {
           <button type='submit'onClick={handleSubmit}>Buscar</button>
       </div>
       {loading &&
-         <div>
-            <p>Table</p>
+         <div className="dataTable">
+            <p>Historial de {search.status}</p>
             <Chart
               width={'100%'}
               height={'400px'}
               chartType='LineChart'
-              loader={<div><Loader /></div>}
+              loader={<Loader />}
               data={dataTable}
               // tslint:disable-next-line: jsx-no-multiline-js
               options={{
-                chartArea: { height: '80%', width: '90%' },
-                hAxis: { slantedText: true },
-                vAxis: { viewWindow: { min: 0, max: 2000 } },
+                chartArea: { 
+                  height: '70%',
+                  width: '80%'
+                },
+                hAxis: 
+                  {   
+                    slantedText: true, 
+                    textStyle:{color: theme ? 'white' : 'black'}
+                  },
+                vAxis: { 
+                  viewWindow: { min: 0, max: search.status === 'deaths' ? 10_000_000 : 100_000_000 },
+                  textStyle:{color: theme ? 'white' : 'black'}
+                  },
                 legend: { position: 'none' },
-                backgroundColor: '#474747',
+                backgroundColor: theme ? '#555555' : 'white',
+                borderRadius: '4px'
               }}
             />
          </div>
