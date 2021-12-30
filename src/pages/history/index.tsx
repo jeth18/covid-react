@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import Chart from 'react-google-charts'
 import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import nodata from '../../assets/fruncir-el-ceno.svg'
 import grafica from '../../assets/histograma-de-grafico.svg'
 import Loader from '../../components/loader'
 import { getHistoryByCountryAndStatus } from '../../service/service.api'
@@ -18,6 +20,7 @@ export default function History() {
 
   const theme = useSelector((state: RootState) => state.theme)
   const mapFechas: Dictionary<number> = {}
+  const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
   const [dataTable, setDataTable] = useState([])
   const [search, setSearch] = useState(
@@ -47,15 +50,22 @@ export default function History() {
     setDataTable(data)
   }
 
+  const notify = () => toast.info('Buscando...')
+
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     setLoading(false)
+    notify()
     const {country, status} = search
     if (country === '' || status === '') {
       console.log('Error data')
     } else {
       getHistoryData(search).then((res: any) => {
-        joinMonthYear(res.All.dates)
+        if (Object.values(res).length > 1) {
+          setError(true)
+        } else {
+          joinMonthYear(res.All.dates)
+        }
       }).finally(() => {
         setLoading(true)
       })
@@ -95,45 +105,51 @@ export default function History() {
           </select>
           <button type='submit'onClick={handleSubmit}>Buscar</button>
       </div>
-      { dataTable.length !== 0  ?
-          loading ?
-          <div className='dataTable'>
-              <p>Historial de {search.status === 'deaths' ? 'Muertes' : 'Confirmados'}</p>
-              <Chart
-                width={'100%'}
-                height={'400px'}
-                chartType='LineChart'
-                loader={<Loader />}
-                data={dataTable}
-                // tslint:disable-next-line: jsx-no-multiline-js
-                options={{
-                  pointSize: 5,
-                  lineWidth: 3,
-                  chartArea: {
-                    height: '70%',
-                    width: '80%',
-                  },
-                  hAxis:
-                    {
-                      slantedText: true,
-                      textStyle: {color: theme ? 'white' : 'black'}
-                    },
-                  vAxis:
-                    {
-                      scaleType: 'linear',
-                      textStyle: {color: theme ? 'white' : 'black'},
-                    },
-                  backgroundColor: 'transparent',
-                }}
-              />
-          </div>
+      { error ?
+        <div className='content'>
+          <img src={nodata} alt='Sin datos' className='logo-img'/>
+          <p>Sin resultados</p>
+        </div>
+        :
+          dataTable.length !== 0 ?
+            loading ?
+              <div className='dataTable'>
+                  <p>Historial de {search.status === 'deaths' ? 'Muertes' : 'Confirmados'}</p>
+                  <Chart
+                    width={'100%'}
+                    height={'400px'}
+                    chartType='LineChart'
+                    loader={<Loader />}
+                    data={dataTable}
+                    // tslint:disable-next-line: jsx-no-multiline-js
+                    options={{
+                      pointSize: 5,
+                      lineWidth: 3,
+                      chartArea: {
+                        height: '70%',
+                        width: '80%',
+                      },
+                      hAxis:
+                        {
+                          slantedText: true,
+                          textStyle: {color: theme ? 'white' : 'black'}
+                        },
+                      vAxis:
+                        {
+                          scaleType: 'linear',
+                          textStyle: {color: theme ? 'white' : 'black'},
+                        },
+                      backgroundColor: 'transparent',
+                    }}
+                  />
+              </div>
+              :
+            <Loader />
           :
-          <Loader />
-         :
-         <div className='content-img'>
-          <img src={grafica} alt='svg-grafica'className='logo-img'/>
-         </div>
-        }
+          <div className='content-img'>
+            <img src={grafica} alt='svg-grafica'className='logo-img'/>
+          </div>
+      }
     </div>
   )
 }

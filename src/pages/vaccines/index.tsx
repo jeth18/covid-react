@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector} from 'react-redux'
 import { Link } from 'react-router-dom'
+import nodata from '../../assets/fruncir-el-ceno.svg'
 import world from '../../assets/world.png'
 import Card from '../../components/Card'
 import Loader from '../../components/loader'
@@ -34,43 +35,56 @@ export default function Vaccines() {
     }, [dispatch])
 
     function renderCardsVaccines() {
-      return Object.values(vaccines)
+
+      const array: any[] = Object.values(vaccines)
       .filter((value) =>
         search === ''
         ? true
         : value.All.country?.toLowerCase().includes(search.toLocaleLowerCase()))
-      .map((value, key) => {
-        const prop: IVaccines =  value.All
+
+      if (array.length <= 0) {
         return (
-          <Link
-            key={key}
-            to={`/vaccines/${value.All.country}`}
-            style={{ textDecoration: 'none' }}
-            className='link-card'
-            state={{from: value.All}}
-          >
-            <Card>
-              <div className='card-content'>
-                <h4>
-                  {prop?.country ? prop.country :  'Global'}
-                </h4>
-                <div className='data-content'>
-                  <p>Administered: </p>
-                  <p>{prop.administered}</p>
-                </div>
-                <div className='data-content'>
-                  <p>People vaccinated: </p>
-                  <p>{prop.people_vaccinated}</p>
-                </div>
-                <div className='data-content'>
-                  <p>People partially vacc:</p>
-                  <p>{prop.people_partially_vaccinated}</p>
-                </div>
-              </div>
-            </Card>
-          </Link>
+          <div className='content'>
+            <img src={nodata} alt='Sin datos' className='logo-img'/>
+            <p>Sin resultados</p>
+          </div>
         )
-      })
+      } else {
+        return(
+            array.map((value, key) => {
+              const prop: IVaccines =  value.All
+              return (
+                <Link
+                  key={key}
+                  to={`/vaccines/${value.All.country}`}
+                  style={{ textDecoration: 'none' }}
+                  className='link-card'
+                  state={{from: value.All}}
+                >
+                  <Card>
+                    <div className='card-content'>
+                      <h4>
+                        {prop?.country ? prop.country :  'Global'}
+                      </h4>
+                      <div className='data-content'>
+                        <p>Administered: </p>
+                        <p>{prop.administered}</p>
+                      </div>
+                      <div className='data-content'>
+                        <p>People vaccinated: </p>
+                        <p>{prop.people_vaccinated}</p>
+                      </div>
+                      <div className='data-content'>
+                        <p>People partially vacc:</p>
+                        <p>{prop.people_partially_vaccinated}</p>
+                      </div>
+                    </div>
+                  </Card>
+                </Link>
+              )
+          })
+        )
+      }
     }
 
     function filterCountries(e: React.ChangeEvent<HTMLInputElement>) {

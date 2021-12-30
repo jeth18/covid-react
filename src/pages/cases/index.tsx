@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import nodata from '../../assets/fruncir-el-ceno.svg'
 import Card from '../../components/Card'
 import Loader from '../../components/loader'
 import UpButton from '../../components/upButton'
@@ -33,34 +34,47 @@ export default function CasesPage () {
   }, [dispatch])
 
   function renderCartsCases () {
-    return Object.values(cases)
+
+    const array: any[] = Object.values(cases)
     .filter((value) =>
       search === ''
       ? true
       : value.All.country?.toLowerCase().includes(search.toLocaleLowerCase()))
-    .map((value, key) => {
-      const prop: ICases = value.All
+
+    if (array.length <= 0) {
       return (
-        <Link
-          key={key}
-          to={`/cases/${prop.country}`}
-          style={{ textDecoration: 'none' }}
-          className='link-card'
-          state={{from: value.All}}
-        >
-          <Card>
-            <div className='card-content'>
-              <h4>
-                {prop?.country ? prop.country :  'Global'}
-              </h4>
-              <p>Confirmados: {prop.confirmed} </p>
-              <p>Fallecidos: {prop.deaths} </p>
-              <p>Población: {prop.population}</p>
-            </div>
-          </Card>
-        </Link>
+        <div className='content'>
+          <img src={nodata} alt='Sin datos' className='logo-img'/>
+          <p>Sin resultados</p>
+        </div>
       )
-    })
+    } else {
+      return(
+        array.map((value, key) => {
+          const prop: ICases = value.All
+          return (
+            <Link
+              key={key}
+              to={`/cases/${prop.country}`}
+              style={{ textDecoration: 'none' }}
+              className='link-card'
+              state={{from: value.All}}
+            >
+              <Card>
+                <div className='card-content'>
+                  <h4>
+                    {prop?.country ? prop.country :  'Global'}
+                  </h4>
+                  <p>Confirmados: {prop.confirmed} </p>
+                  <p>Fallecidos: {prop.deaths} </p>
+                  <p>Población: {prop.population}</p>
+                </div>
+              </Card>
+            </Link>
+          )
+        })
+      )
+    }
   }
 
   function filterCountries (e: React.ChangeEvent<HTMLInputElement>) {
