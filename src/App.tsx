@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './App.css'
-import Sidenav from './components/sidenav'
+import Sidenav from './components/sidenav/Sidenav'
 import Router from './router'
 import { RootState } from './state/store'
 

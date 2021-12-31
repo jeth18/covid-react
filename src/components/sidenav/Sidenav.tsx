@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import MenuButton from '../MenuButton'
-import Sidebar from '../sidebar'
-import ThemeChange from '../ThemeButton'
+import MenuButton from '../MenuButton/MenuButton'
+import Sidebar from '../sidebar/Sidebar'
+import ThemeChange from '../ThemeButton/ThemeButton'
+import UpButton from '../upButton/UpButton'
 import './sidenav.css'
 
 export default function Sidenav() {
@@ -40,6 +41,7 @@ export default function Sidenav() {
           <ThemeChange />
         </div>
       </header>
+      <UpButton refScrollUp={ref} />
     </div>
   )
 }

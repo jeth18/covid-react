@@ -1,81 +1,14 @@
-import React, { useEffect, useRef, useState} from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import nodata from '../../assets/fruncir-el-ceno.svg'
-import Card from '../../components/Card'
-import Loader from '../../components/loader'
-import UpButton from '../../components/upButton'
-import { ICases } from '../../interface/cases'
-import { getCases } from '../../service/service.api'
-import { initCases } from '../../state/actionCreators'
-import { RootState } from '../../state/store'
+import React, { useState} from 'react'
+import Loader from '../../components/loader/Loader'
+import useCases from '../../hooks/useCases'
+import { renderCartsCases } from './cases'
 
 import './cases.css'
 
 export default function CasesPage () {
 
-  const cases = useSelector((state: RootState) => state.cases)
+  const {cases, loading} = useCases()
   const [search, setSearch] = useState<string>('')
-  const [loading, setLoading] = useState<boolean>(false)
-  const refScrollUp: any = useRef()
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-      async function getDatosCases () {
-        try {
-          const response: ICases[] = await getCases()
-          dispatch(initCases(await response))
-          setLoading(true)
-        } catch (error) {
-          console.log('error', error)
-        }
-      }
-      getDatosCases()
-  }, [dispatch])
-
-  function renderCartsCases () {
-
-    const array: any[] = Object.values(cases)
-    .filter((value) =>
-      search === ''
-      ? true
-      : value.All.country?.toLowerCase().includes(search.toLocaleLowerCase()))
-
-    if (array.length <= 0) {
-      return (
-        <div className='content'>
-          <img src={nodata} alt='Sin datos' className='logo-img'/>
-          <p>Sin resultados</p>
-        </div>
-      )
-    } else {
-      return(
-        array.map((value, key) => {
-          const prop: ICases = value.All
-          return (
-            <Link
-              key={key}
-              to={`/cases/${prop.country}`}
-              style={{ textDecoration: 'none' }}
-              className='link-card'
-              state={{from: value.All}}
-            >
-              <Card>
-                <div className='card-content'>
-                  <h4>
-                    {prop?.country ? prop.country :  'Global'}
-                  </h4>
-                  <p>Confirmados: {prop.confirmed} </p>
-                  <p>Fallecidos: {prop.deaths} </p>
-                  <p>Población: {prop.population}</p>
-                </div>
-              </Card>
-            </Link>
-          )
-        })
-      )
-    }
-  }
 
   function filterCountries (e: React.ChangeEvent<HTMLInputElement>) {
     setSearch(e.target.value)
@@ -83,7 +16,7 @@ export default function CasesPage () {
 
   return(
    <div className='content'>
-      <div ref={refScrollUp} className='header-filter'>
+      <div className='header-filter'>
         <div className='div-Suffix'>
           País:
         </div>
@@ -103,9 +36,8 @@ export default function CasesPage () {
             {cases ?
               <div>
                 <div className='display-carts'>
-                  {renderCartsCases()}
+                  {renderCartsCases({search, cases})}
                 </div>
-                <UpButton refScrollUp={refScrollUp} />
               </div>
             :
               <p>Error al recuperar los casos</p>
