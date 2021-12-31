@@ -1,23 +1,15 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import sun from '../../assets/dom.svg'
 import moon from '../../assets/luna.svg'
+import useTheme from '../../hooks/useTheme'
 import { changeTheme } from '../../state/actionCreators'
-import { RootState } from '../../state/store'
 
 import './theme.css'
 
 export default function ThemeChange() {
-  const theme: boolean = useSelector((state: RootState) => state.theme)
+
+  const theme  = useTheme()
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    theme ? setTheme('dark') : setTheme('light')
-  }, [theme])
-
-  const setTheme = (them: string) => {
-    document.getElementsByTagName('HTML')[0].setAttribute('data-theme', them)
-  }
 
   const handleClickChangeTheme = () => {
     dispatch(changeTheme(!theme))
