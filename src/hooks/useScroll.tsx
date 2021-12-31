@@ -21,5 +21,5 @@ export default function useScroll(initialState: number = 0) {
     return () => window.removeEventListener('scroll', scrollListener)
   })
 
-  return { hidden }
+  return { hidden, scroll }
 }

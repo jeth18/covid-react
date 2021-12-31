@@ -4,7 +4,7 @@ html {
   --secondary-color: white;
   /*--input-background-color: white;*/
   --box-shadow-color: black;
-  --cart-color: rgb(255, 255, 255);
+  --cart-color: rgb(255, 250, 250);
   --theme-button-bg: rgba(230, 230, 230, 0.6);
   --theme-chart-bg: rgba(245, 238, 238, 0.705);
   --theme-button-border: rgb(175, 175, 175);
@@ -16,7 +16,7 @@ html {
 html[data-theme="dark"] {
   --primary-color: #fff;
   --secondary-color: #353535;
-  --cart-color: #424242;
+  --cart-color: rgb(60, 60, 60);
   --box-shadow-color: rgb(48, 48, 48);
   /* --input-background-color: rgb(70, 63, 63); */
   --theme-button-bg: rgba(125, 125, 125, 0.6);

@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
+import useOpen from '../../hooks/useOpen'
+import useScroll from '../../hooks/useScroll'
 import MenuButton from '../MenuButton/MenuButton'
 import Sidebar from '../sidebar/Sidebar'
 import ThemeChange from '../ThemeButton/ThemeButton'
@@ -7,25 +9,17 @@ import './sidenav.css'
 
 export default function Sidenav() {
 
-  const [open, setOpen] = useState(false)
   const ref: any = useRef()
+  const {open, setOpen} = useOpen(ref)
+  const { scroll } = useScroll()
 
   function handleClick() {
     setOpen(!open)
   }
 
-  useEffect(() => {
-    const checkIfClickedOutside = (e: any) => {
-      if (open && ref.current && !ref.current.contains(e.target)) {
-        setOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', checkIfClickedOutside)
-
-    return () => {
-      document.removeEventListener('mousedown', checkIfClickedOutside)
-    }
-  }, [open])
+  if (open && scroll > 20) {
+    setOpen(false)
+  }
 
   return (
     <div className='sidebar' ref={ref}>
