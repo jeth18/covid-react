@@ -4,7 +4,7 @@ import { RootState } from '../state/store'
 
 export default function useTheme() {
 
-  const theme = useSelector((state: RootState) => state.theme)
+  const theme: boolean = useSelector((state: RootState) => state.theme)
 
   useEffect(() => {
     theme ? setTheme('dark') : setTheme('light')

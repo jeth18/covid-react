@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react'
+import { RefObject, useEffect, useState } from 'react'
 
-export default function useOpen(ref: any) {
+export default function useOpen(ref: RefObject<HTMLDivElement>) {
 
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const checkIfClickedOutside = (e: any) => {
-      if (open && ref.current && !ref.current.contains(e.target)) {
+    const checkIfClickedOutside = (ev: MouseEvent) => {
+      if (open && ref.current && !ref.current.contains(ev.target as Node)) {
         setOpen(false)
       }
     }

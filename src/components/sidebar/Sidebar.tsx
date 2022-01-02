@@ -1,7 +1,8 @@
 import { Link, Outlet } from 'react-router-dom'
+import { HandleClick } from '../../types/types'
 import './sidebar.css'
 
-export default function Sidebar({ handleClick }: any) {
+export default function Sidebar({ handleClick }: {handleClick: HandleClick}) {
 
   return (
     <div className='sidebar'>

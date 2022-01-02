@@ -1,22 +1,19 @@
+import { ICases } from '../../interface/cases'
+import { IVaccines } from '../../interface/vaccines'
 import { ActionTypes } from '../actionTypes/index'
 
-interface SetVaccines {
-  type: ActionTypes.SET_VACCINES
-  payload: any[]
-}
-
-interface init {
+interface initVaccines {
   type: ActionTypes.INIT_VACCINE
-  payload: any[]
+  payload: IVaccines[]
 }
 
 interface initCases {
   type: ActionTypes.INIT_CASES
-  payload: any[]
+  payload: ICases[]
 }
 
 interface changeTheme {
   type: ActionTypes.CHANGE_THEME
   payload: boolean
 }
-export type Action = SetVaccines | init | initCases | changeTheme
+export type Action = initVaccines | initCases | changeTheme

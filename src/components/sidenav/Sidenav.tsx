@@ -9,11 +9,11 @@ import './sidenav.css'
 
 export default function Sidenav() {
 
-  const ref: any = useRef()
+  const ref = useRef<HTMLDivElement>(null)
   const {open, setOpen} = useOpen(ref)
   const { scroll } = useScroll()
 
-  function handleClick() {
+  function handleClick(): void {
     setOpen(!open)
   }
 

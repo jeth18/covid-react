@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { IVaccines } from '../interface/vaccines'
 import { getVaccines } from '../service/service.api'
 import { initVaccines } from '../state/actionCreators'
 import { RootState } from '../state/store'
@@ -12,7 +13,7 @@ export default function useVaccines() {
   useEffect(() => {
     async function getDatosVaccines() {
       try {
-        let response: any[] = await getVaccines()
+        let response: IVaccines[] = await getVaccines()
         response = await response
         dispatch(initVaccines(response))
         setLoading(true)

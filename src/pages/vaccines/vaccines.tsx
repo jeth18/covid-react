@@ -11,7 +11,7 @@ interface Data {
 
 function renderCardsVaccines({search, vaccines}: Data) {
 
-  const array: any[] = Object.values(vaccines)
+  const array: IVaccines[] = Object.values(vaccines)
   .filter((value) =>
     search === ''
     ? true
@@ -62,7 +62,7 @@ function renderCardsVaccines({search, vaccines}: Data) {
   }
 }
 
-function setGlobal(value: any, key: string) {
+function setGlobal(value: IVaccines, key: string) {
   return (
     <div className='data-content' key={key}>
       <img src={world} alt='wolrdimg' />

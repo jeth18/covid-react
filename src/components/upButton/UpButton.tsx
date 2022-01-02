@@ -1,13 +1,16 @@
+import { RefObject } from 'react'
 import up from '../../assets/cuadrado-de-angulo.svg'
 import useScroll from '../../hooks/useScroll'
 import './upbutton.css'
 
-export default function UpButton({refScrollUp}: any) {
+export default function UpButton({refScrollUp}: {refScrollUp: RefObject<HTMLDivElement>}) {
 
   const { hidden } = useScroll()
 
   function handleScrollUp() {
-    refScrollUp.current.scrollIntoView({ behavior: 'smooth' })
+    if (refScrollUp && refScrollUp.current) {
+      refScrollUp.current.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   return (

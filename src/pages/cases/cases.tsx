@@ -10,7 +10,7 @@ interface Data {
 
 function renderCartsCases ({search, cases }: Data) {
 
-  const array: any[] = Object.values(cases)
+  const array: ICases[] = Object.values(cases)
   .filter((value) =>
     search === ''
     ? true
