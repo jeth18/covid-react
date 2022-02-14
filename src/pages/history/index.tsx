@@ -74,7 +74,6 @@ export default function History() {
         .finally(() => {
           setLoading(true);
         });
-      console.log(resolve);
       notify(resolve);
     }
   };

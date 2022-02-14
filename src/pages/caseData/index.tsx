@@ -11,7 +11,6 @@ interface LocationState {
 
 export default function CaseData() {
   const location = useLocation();
-  console.log(location);
   const { from } = location.state as LocationState;
   return (
     <div className="data-case">
